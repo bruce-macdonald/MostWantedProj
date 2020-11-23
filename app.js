@@ -12,10 +12,37 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
-      break;
-      default:
-    app(people); // restart app
+      let traitToSearchBy = promptFor("What trait would you like to search by?, Enter 'gender' or 'dob' or 'height' or 'weight' or 'eyecolor' or occupation' or 'parents' or 'spouse'", traitToLower).toLowerCase();
+      let traitSearchResults;
+      switch(traitToSearchBy){
+        case 'gender':
+          traitSearchResults = searchByGender(people);
+          break;
+        case 'dob':
+          traitSearchResults = searchByDob(people);
+          break;
+        case 'height':
+          traitSearchResults = searchByHeight(people);
+          break;
+        case 'weight':
+          traitSearchResults = searchByWeight(people);
+          break;
+        case 'eyecolor':
+          traitSearchResults = searchByEyecolor(people);
+          break;
+        case 'occupation':
+          traitSearchResults = searchByOccupation(people);
+          break;
+        case 'parents':
+          traitSearchResults = searchByParents(people);
+          break;
+        case 'spouse':
+          traitSearchResults = searchBySpouse(people);
+          break;
+        default: app(people);
+        break;
+      }
+      default: app(people);
       break;
   }
   
@@ -100,6 +127,11 @@ function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
+function traitToLower(input){
+  return input.toLowerCase() == "gender" || input.toLowerCase() == "dob" || input.toLowerCase() == "height"
+  || input.toLowerCase() == "weight" || input.toLowerCase() == "eyecolor" || input.toLowerCase() == "occupation"
+  || input.toLowerCase() == "parents" || input.toLowerCase() == "spouse";
+}
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
