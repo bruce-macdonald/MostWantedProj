@@ -49,7 +49,8 @@ function mainMenu(person, people) {
       // TODO: get person's family
       break;
     case "descendants":
-      // TODO: get person's descendants
+      let foundDescendants = findDescendants(person, people);
+      displayPeople(foundDescendants);
       break;
     case "restart":
       app(people); // restart
@@ -116,24 +117,24 @@ function searchByTrait(people) {
       traitSearchResults = searchBySpouse(people);
       searchAgain(traitSearchResults)
       break;
-    default: 
+    default:
       alert("Invalid input, please select from list of options")
       break;
-      // return searchByTrait(people);
-    }
+    // return searchByTrait(people);
+  }
 }
 
 function searchAgain(traitSearchResults, numMatches = -1, people = []) {
   let response = promptFor("Would you like to search further?", yesNo).toLowerCase();
   switch (response) {
     case 'yes':
-      if(numMatches == 0){
+      if (numMatches == 0) {
         searchByTrait(people);
       }
-      else{
+      else {
         searchByTrait(traitSearchResults);
       }
-      
+
       break;
     case 'no':
       return displayPeople(traitSearchResults);
@@ -141,7 +142,7 @@ function searchAgain(traitSearchResults, numMatches = -1, people = []) {
       break;
   }
 }
-function matchesFound(people){
+function matchesFound(people) {
   let numMatches = people.length;
   alert(`${numMatches} Matches found`);
   return people;
@@ -194,8 +195,6 @@ function searchByHeight(people) {
 
 function searchByEyeColor(people) {
   let eyeColor = promptFor("What is the person's eye color?", chars);
-
-
   let foundPerson = people.filter(function (person) {
     if (person.eyeColor === eyeColor) {
       return true;
@@ -222,6 +221,38 @@ function searchByWeight(people) {
   })
   return foundPerson;
 }
+
+
+function searchByEyeOccupation(people) {
+  let occupation = promptFor("What is the person's occupation?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.occupation === occupation) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+
+function findDescendants(person, people, descendants = []){
+  //map each person from the people array that personId ==== parents
+  people.map(function(el){
+    if (el.parents.includes(person.id)) {
+      descendants.push(el)
+      //if my id number matches someone elses parent number = i am their parent
+      //push those id's to descendants array
+      return findDescendants(el, people, descendants);
+    }
+  });
+  return descendants;
+}
+
+
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
