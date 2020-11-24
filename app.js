@@ -46,7 +46,8 @@ function mainMenu(person, people) {
       displayPerson(person);
       break;
     case "family":
-      // TODO: get person's family
+      let foundParents = findSiblings(person, people);
+      displayPeople(foundParents);
       break;
     case "descendants":
       let foundDescendants = findDescendants(person, people);
@@ -239,18 +240,71 @@ function searchByEyeOccupation(people) {
 }
 
 
-function findDescendants(person, people, descendants = []){
-  //map each person from the people array that personId ==== parents
-  people.map(function(el){
+function findDescendants(person, people, descendants = []) {
+  people.map(function (el) {
     if (el.parents.includes(person.id)) {
       descendants.push(el)
-      //if my id number matches someone elses parent number = i am their parent
-      //push those id's to descendants array
       return findDescendants(el, people, descendants);
     }
   });
   return descendants;
 }
+
+function findParents(person, people, parentals = []) {
+  let parentId = person.parents;
+  people.filter(function (el) {
+    if (el.id == parentId) {
+      parentals.push(el.id);
+      return true;
+    }
+    else{
+      return false;
+    }
+  });
+  return parentals;
+}
+
+function findSpouse(person, people, spouse =[]) {
+  let spouseId = person.currentSpouse;
+  people.filter(function(el) {
+    if (el.id == spouseId) {
+      spouse.push(el.id);
+      return true;
+    }
+    else{
+      return false;
+    }
+  });
+  return spouse;
+}
+
+
+
+function findSiblings(person, people){
+  for (let i = 0; i <person.parents.length; i++){
+    var siblings = people.filter(function(el){
+      if((person.parents[i] === el.parents[0] || person.parents[i] === el.parents[1]) && person.id !== el.id){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
+
+  }
+  return siblings;
+}
+
+
+// function getFamily(person, people, family = []){
+//   let parents = findParents(person, people);
+//   let spouse = findSpouse(person, people);
+//   let siblings = findSiblings(parents, people);
+//   if ( parents.length != 0){
+    
+//   }
+
+// }
 
 
 // alerts a list of people
