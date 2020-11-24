@@ -5,50 +5,21 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  let searchType = promptFor("Would you like to search by 'name' or 'trait'?", nameTrait).toLowerCase();
   let searchResults;
   switch(searchType){
-    case 'yes':
+    case 'name':
       searchResults = searchByName(people);
       break;
-    case 'no':
-      let traitToSearchBy = promptFor("What trait would you like to search by?, Enter 'gender' or 'dob' or 'height' or 'weight' or 'eyecolor' or occupation' or 'parents' or 'spouse'", traitToLower).toLowerCase();
-      let traitSearchResults;
-      switch(traitToSearchBy){
-        case 'gender':
-          traitSearchResults = searchByGender(people);
-          break;
-        case 'dob':
-          traitSearchResults = searchByDob(people);
-          break;
-        case 'height':
-          traitSearchResults = searchByHeight(people);
-          break;
-        case 'weight':
-          traitSearchResults = searchByWeight(people);
-          break;
-        case 'eyecolor':
-          traitSearchResults = searchByEyecolor(people);
-          break;
-        case 'occupation':
-          traitSearchResults = searchByOccupation(people);
-          break;
-        case 'parents':
-          traitSearchResults = searchByParents(people);
-          break;
-        case 'spouse':
-          traitSearchResults = searchBySpouse(people);
-          break;
-        default: app(people);
-        break;
-      }
+    case 'trait':
+      searchResults = searchByTrait(perople)
       default: app(people);
       break;
   }
-  
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
+
 
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
@@ -97,7 +68,38 @@ function searchByName(people){
   // TODO: find the person using the name they entered
   return foundPerson;
 }
-
+function searchByTrait(people){
+  let traitToSearchBy = promptFor("What trait would you like to search by?\nEnter 'gender' or 'dob' or 'height' or 'weight' or 'eyecolor' or occupation' or 'parents' or 'spouse'", traitToLower).toLowerCase();
+  let traitSearchResults;
+  switch(traitToSearchBy){
+    case 'gender':
+      traitSearchResults = searchByGender(people);
+      break;
+    case 'dob':
+      traitSearchResults = searchByDob(people);
+      break;
+    case 'height':
+      traitSearchResults = searchByHeight(people);
+      break;
+    case 'weight':
+      traitSearchResults = searchByWeight(people);
+      break;
+    case 'eyecolor':
+      traitSearchResults = searchByEyecolor(people);
+      break;
+    case 'occupation':
+      traitSearchResults = searchByOccupation(people);
+      break;
+    case 'parents':
+      traitSearchResults = searchByParents(people);
+      break;
+    case 'spouse':
+      traitSearchResults = searchBySpouse(people);
+      break;
+    default: searchByTrait(p);
+      break;
+  }
+}
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -131,8 +133,8 @@ function promptFor(question, valid){
 }
 
 // helper function to pass into promptFor to validate yes/no answers
-function yesNo(input){
-  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
+function nameTrait(input){
+  return input.toLowerCase() == "name" || input.toLowerCase() == "trait";
 }
 
 function traitToLower(input){
