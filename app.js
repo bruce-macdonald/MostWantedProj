@@ -176,6 +176,22 @@ function searchByHeight(people) {
   })
   return foundPerson;
 }
+
+
+function searchByWeight(people) {
+  let weight = promptFor("What is the person's weight(in pounds)?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.weight == weight) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
