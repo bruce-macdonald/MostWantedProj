@@ -101,7 +101,7 @@ function searchByTrait(people) {
       searchAgain(traitSearchResults)
       break;
     case 'eyecolor':
-      traitSearchResults = searchByEyecolor(people);
+      traitSearchResults = searchByEyeColor(people);
       searchAgain(traitSearchResults)
       break;
     case 'occupation':
@@ -137,9 +137,29 @@ function searchAgain(traitSearchResults, numMatches = -1, people = []) {
       break;
     case 'no':
       return displayPeople(traitSearchResults);
-    default: searchAgain(traitSearchResults);
+    default:
+      break;
   }
 }
+function matchesFound(people){
+  let numMatches = people.length;
+  alert(`${numMatches} Matches found`);
+  return people;
+}
+// function searchByAge(people) {
+//   let birthday = promptFor("What is the person's age?", chars);
+
+
+//   let foundPerson = people.filter(function (person) {
+//     if (person.dob === Date.) {
+//       return true;
+//     }
+//     else {
+//       return false;
+//     }
+//   })
+//   return foundPerson;
+// }
 
 function searchByGender(people) {
   let gender = promptFor("What is the person's gender?", chars);
@@ -156,17 +176,56 @@ function searchByGender(people) {
   return foundPerson;
 }
 
-function matchesFound(people){
-  let numMatches = people.length;
-  alert(`${numMatches} Matches found`);
-  return people;
+function searchByHeight(people) {
+  let height = promptFor("What is the person's height(in inches)?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.height == height) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
 }
 
 
+function searchByEyeColor(people) {
+  let eyeColor = promptFor("What is the person's eye color?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.eyeColor === eyeColor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+
+function searchByWeight(people) {
+  let weight = promptFor("What is the person's weight(in pounds)?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.weight == weight) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
-    var i = (people.indexOf(person)+1);
+    var i = (people.indexOf(person) + 1);
     return i + ") " + person.firstName + " " + person.lastName;
   }).join("\n"));
 }
