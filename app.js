@@ -80,10 +80,13 @@ function searchByName(people) {
 function searchByTrait(people) {
   let traitToSearchBy = promptFor("What trait would you like to search by?\nEnter 'gender' or 'dob' or 'height' or 'weight' or 'eyecolor' or occupation' or 'parents' or 'spouse'", traitToLower).toLowerCase();
   let traitSearchResults;
+  let numMatches;
   switch (traitToSearchBy) {
     case 'gender':
       traitSearchResults = searchByGender(people);
-      searchAgain(traitSearchResults)
+      let numMatches = traitSearchResults.length;
+      matchesFound(traitSearchResults);
+      searchAgain(traitSearchResults, numMatches, people);
       break;
     case 'dob':
       traitSearchResults = searchByDob(people);
@@ -114,17 +117,23 @@ function searchByTrait(people) {
       searchAgain(traitSearchResults)
       break;
     default: 
-      prompt("Invalid input, please select from list of options")
-      searchByTrait(people);
+      alert("Invalid input, please select from list of options")
       break;
+      // return searchByTrait(people);
     }
 }
 
-function searchAgain(traitSearchResults) {
+function searchAgain(traitSearchResults, numMatches = -1, people = []) {
   let response = promptFor("Would you like to search further?", yesNo).toLowerCase();
   switch (response) {
     case 'yes':
-      searchByTrait(traitSearchResults);
+      if(numMatches == 0){
+        searchByTrait(people);
+      }
+      else{
+        searchByTrait(traitSearchResults);
+      }
+      
       break;
     case 'no':
       return displayPeople(traitSearchResults);
@@ -146,6 +155,13 @@ function searchByGender(people) {
   })
   return foundPerson;
 }
+
+function matchesFound(people){
+  let numMatches = people.length;
+  alert(`${numMatches} Matches found`);
+  return people;
+}
+
 
 // alerts a list of people
 function displayPeople(people) {
