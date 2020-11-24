@@ -132,6 +132,21 @@ function searchAgain(traitSearchResults) {
   }
 }
 
+// function searchByAge(people) {
+//   let birthday = promptFor("What is the person's age?", chars);
+
+
+//   let foundPerson = people.filter(function (person) {
+//     if (person.dob === Date.) {
+//       return true;
+//     }
+//     else {
+//       return false;
+//     }
+//   })
+//   return foundPerson;
+// }
+
 function searchByGender(people) {
   let gender = promptFor("What is the person's gender?", chars);
 
@@ -147,6 +162,20 @@ function searchByGender(people) {
   return foundPerson;
 }
 
+function searchByHeight(people) {
+  let height = promptFor("What is the person's height(in inches)?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.height == height) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
