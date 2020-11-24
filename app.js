@@ -98,7 +98,7 @@ function searchByTrait(people) {
       searchAgain(traitSearchResults)
       break;
     case 'eyecolor':
-      traitSearchResults = searchByEyecolor(people);
+      traitSearchResults = searchByEyeColor(people);
       searchAgain(traitSearchResults)
       break;
     case 'occupation':
@@ -113,12 +113,12 @@ function searchByTrait(people) {
       traitSearchResults = searchBySpouse(people);
       searchAgain(traitSearchResults)
       break;
-    default: 
-      prompt("Invalid input, please select from list of options")
-      searchByTrait(people);
+    default:
       break;
-    }
+  }
 }
+
+
 
 function searchAgain(traitSearchResults) {
   let response = promptFor("Would you like to search further?", yesNo).toLowerCase();
@@ -128,7 +128,8 @@ function searchAgain(traitSearchResults) {
       break;
     case 'no':
       return displayPeople(traitSearchResults);
-    default: searchAgain(traitSearchResults);
+    default:
+      break;
   }
 }
 
@@ -178,6 +179,22 @@ function searchByHeight(people) {
 }
 
 
+function searchByEyeColor(people) {
+  let eyeColor = promptFor("What is the person's eye color?", chars);
+
+
+  let foundPerson = people.filter(function (person) {
+    if (person.eyeColor === eyeColor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  })
+  return foundPerson;
+}
+
+
 function searchByWeight(people) {
   let weight = promptFor("What is the person's weight(in pounds)?", chars);
 
@@ -195,7 +212,7 @@ function searchByWeight(people) {
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
-    var i = (people.indexOf(person)+1);
+    var i = (people.indexOf(person) + 1);
     return i + ") " + person.firstName + " " + person.lastName;
   }).join("\n"));
 }
