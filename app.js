@@ -73,39 +73,62 @@ function searchByName(people) {
       return false;
     }
   })
-  // TODO: find the person using the name they entered
   return foundPerson;
 }
+
+
 function searchByTrait(people) {
   let traitToSearchBy = promptFor("What trait would you like to search by?\nEnter 'gender' or 'dob' or 'height' or 'weight' or 'eyecolor' or occupation' or 'parents' or 'spouse'", traitToLower).toLowerCase();
   let traitSearchResults;
   switch (traitToSearchBy) {
     case 'gender':
       traitSearchResults = searchByGender(people);
+      searchAgain(traitSearchResults)
       break;
     case 'dob':
       traitSearchResults = searchByDob(people);
+      searchAgain(traitSearchResults)
       break;
     case 'height':
       traitSearchResults = searchByHeight(people);
+      searchAgain(traitSearchResults)
       break;
     case 'weight':
       traitSearchResults = searchByWeight(people);
+      searchAgain(traitSearchResults)
       break;
     case 'eyecolor':
       traitSearchResults = searchByEyecolor(people);
+      searchAgain(traitSearchResults)
       break;
     case 'occupation':
       traitSearchResults = searchByOccupation(people);
+      searchAgain(traitSearchResults)
       break;
     case 'parents':
       traitSearchResults = searchByParents(people);
+      searchAgain(traitSearchResults)
       break;
     case 'spouse':
       traitSearchResults = searchBySpouse(people);
+      searchAgain(traitSearchResults)
       break;
-    default: searchByTrait(p);
+    default: 
+      prompt("Invalid input, please select from list of options")
+      searchByTrait(people);
       break;
+    }
+}
+
+function searchAgain(traitSearchResults) {
+  let response = promptFor("Would you like to search further?", yesNo).toLowerCase();
+  switch (response) {
+    case 'yes':
+      searchByTrait(traitSearchResults);
+      break;
+    case 'no':
+      return displayPeople(traitSearchResults);
+    default: searchAgain(traitSearchResults);
   }
 }
 
@@ -121,15 +144,18 @@ function searchByGender(people) {
       return false;
     }
   })
-  // TODO: find the person using the name they entered
   return foundPerson;
 }
+
 // alerts a list of people
 function displayPeople(people) {
   alert(people.map(function (person) {
-    return person.firstName + " " + person.lastName;
+    var i = (people.indexOf(person)+1);
+    return i + ") " + person.firstName + " " + person.lastName;
   }).join("\n"));
 }
+
+//"Please enter the number of the profile to view\n"
 
 function displayPerson(person) {
   // print all of the information about a person:
@@ -159,6 +185,9 @@ function promptFor(question, valid) {
 // helper function to pass into promptFor to validate yes/no answers
 function nameTrait(input) {
   return input.toLowerCase() == "name" || input.toLowerCase() == "trait";
+}
+function yesNo(input) {
+  return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
 function traitToLower(input) {
