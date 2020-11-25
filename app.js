@@ -18,19 +18,17 @@ function app(people) {
     return app(people); // restart
   }
   else {
-    displayPeople(searchResults)
+    displayPeople(searchResults);
+    askViewDetails(searchResults);
   }
 }
 
 function mainMenu(person, people) {
-
   if (!person) {
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
   switch (displayOption) {
     case "info":
       displayPerson(person);
@@ -42,7 +40,7 @@ function mainMenu(person, people) {
       let foundDescendants = findDescendants(person, people);
       if (foundDescendants.length > 0) {
         displayPeople(foundDescendants);
-        askViewDetails(foundDescendants)
+        askViewDetails(foundDescendants);
       }
       else {
         alert("No Known Descendants.")
@@ -84,34 +82,37 @@ function searchByTrait(people) {
     case 'height':
       traitSearchResults = searchByHeight(people);
       matchesFound(traitSearchResults);
-      searchAgain(traitSearchResults)
+      searchAgain(traitSearchResults);
       break;
     case 'weight':
       traitSearchResults = searchByWeight(people);
       matchesFound(traitSearchResults);
-      searchAgain(traitSearchResults)
+      searchAgain(traitSearchResults);
       break;
     case 'eyecolor':
       traitSearchResults = searchByEyeColor(people);
       matchesFound(traitSearchResults);
-      searchAgain(traitSearchResults)
+      searchAgain(traitSearchResults);
       break;
     case 'occupation':
       traitSearchResults = searchByOccupation(people);
       matchesFound(traitSearchResults);
-      searchAgain(traitSearchResults)
+      searchAgain(traitSearchResults);
       break;
   }
 }
 
 function searchAgain(traitSearchResults) {
-  let response = promptFor("Would you like to search further?", yesNo).toLowerCase();
+  let response = promptFor("Would you like to search further?\nEnter 'yes' or 'no'", yesNo).toLowerCase();
+  let tempArray = traitSearchResults;
   switch (response) {
     case 'yes':
       searchByTrait(traitSearchResults);
       break;
     case 'no':
-      return displayPeople(traitSearchResults);
+      displayPeople(tempArray);
+      askViewDetails(traitSearchResults);
+      break;
   }
 }
 
@@ -150,7 +151,7 @@ function searchByHeight(people) {
     }
   })
   if (foundPerson == 0) {
-    alert("No matches, returning to start.")
+    alert("No matches, returning to start.");
     return app(people);
   }
   else {
@@ -169,7 +170,7 @@ function searchByWeight(people) {
     }
   })
   if (foundPerson == 0) {
-    alert("No matches, returning to start.")
+    alert("No matches, returning to start.");
     return app(people);
   }
   else {
@@ -188,7 +189,7 @@ function searchByEyeColor(people) {
     }
   })
   if (foundPerson == 0) {
-    alert("No matches, returning to start.")
+    alert("No matches, returning to start.");
     return app(people);
   }
   else {
@@ -207,7 +208,7 @@ function searchByOccupation(people) {
     }
   })
   if (foundPerson == 0) {
-    alert("No matches, returning to start.")
+    alert("No matches, returning to start.");
     return app(people);
   }
   else {
@@ -281,7 +282,7 @@ function getFamily(person, people) {
     displayFamily += "Spouse: " + spouse[0].firstName + " " + spouse[0].lastName + "\n";
   }
   else {
-    displayFamily += "Spouse: No known spouse.\n"
+    displayFamily += "Spouse: No known spouse.\n";
   }
   if (siblings != null) {
     siblings.forEach(function (sibling) {
@@ -291,6 +292,7 @@ function getFamily(person, people) {
   else {
     displayFamily += "Siblings: No known siblings.\n";
   }
+  displayFamily += "*****\nTo view the details of any found relatives, start a new search using their first and last name."
   alert(displayFamily);
 }
 
@@ -302,7 +304,7 @@ function displayPeople(people) {
 }
 
 function askViewDetails(people) {
-  let response = promptFor("Would you view person detials?", yesNo).toLowerCase();
+  let response = promptFor("Would you like to view person detials?\nEnter 'yes' or 'no'", yesNo).toLowerCase();
   switch (response) {
     case 'yes':
       selectPerson(people);
@@ -313,10 +315,10 @@ function askViewDetails(people) {
 }
 
 function selectPerson(people){
-  alert("Take a look again and remember selection number")
+  alert("Take a look at the list again AND remember selection number");
   displayPeople(people);
   let response = promptFor("Input selection number", chars);
-  displayPerson(people[response]);
+  displayPerson(people[response-1]);
 }
 
 function displayPerson(person) {
