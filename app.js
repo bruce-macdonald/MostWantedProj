@@ -20,7 +20,6 @@ function app(people) {
   else {
     displayPeople(searchResults)
   }
-  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
 }
 
 function mainMenu(person, people) {
@@ -43,6 +42,7 @@ function mainMenu(person, people) {
       let foundDescendants = findDescendants(person, people);
       if (foundDescendants.length > 0) {
         displayPeople(foundDescendants);
+        askViewDetails(foundDescendants)
       }
       else {
         alert("No Known Descendants.")
@@ -114,6 +114,7 @@ function searchAgain(traitSearchResults) {
       return displayPeople(traitSearchResults);
   }
 }
+
 function matchesFound(people) {
   let numMatches = people.length;
   alert(`${numMatches} Matches found`);
@@ -121,7 +122,6 @@ function matchesFound(people) {
 
 function searchByGender(people) {
   let gender = promptFor("What is the person's gender?", chars);
-  let originalArray = people;
   let foundPerson = people.filter(function (person) {
     if (person.gender === gender) {
       return true;
@@ -132,7 +132,7 @@ function searchByGender(people) {
   })
   if (foundPerson == 0) {
     alert("No matches, returning to start.")
-    return app(originalArray);
+    return app(people);
   }
   else {
     return foundPerson;
@@ -141,7 +141,6 @@ function searchByGender(people) {
 
 function searchByHeight(people) {
   let height = promptFor("What is the person's height(in inches)?", chars);
-  let originalArray = people;
   let foundPerson = people.filter(function (person) {
     if (person.height == height) {
       return true;
@@ -152,7 +151,7 @@ function searchByHeight(people) {
   })
   if (foundPerson == 0) {
     alert("No matches, returning to start.")
-    return app(originalArray);
+    return app(people);
   }
   else {
     return foundPerson;
@@ -161,7 +160,6 @@ function searchByHeight(people) {
 
 function searchByWeight(people) {
   let weight = promptFor("What is the person's weight(in pounds)?", chars);
-  let originalArray = people;
   let foundPerson = people.filter(function (person) {
     if (person.weight == weight) {
       return true;
@@ -172,7 +170,7 @@ function searchByWeight(people) {
   })
   if (foundPerson == 0) {
     alert("No matches, returning to start.")
-    return app(originalArray);
+    return app(people);
   }
   else {
     return foundPerson;
@@ -181,7 +179,6 @@ function searchByWeight(people) {
 
 function searchByEyeColor(people) {
   let eyeColor = promptFor("What is the person's eye color?", chars);
-  let originalArray = people;
   let foundPerson = people.filter(function (person) {
     if (person.eyeColor === eyeColor) {
       return true;
@@ -192,7 +189,7 @@ function searchByEyeColor(people) {
   })
   if (foundPerson == 0) {
     alert("No matches, returning to start.")
-    return app(originalArray);
+    return app(people);
   }
   else {
     return foundPerson;
@@ -201,7 +198,6 @@ function searchByEyeColor(people) {
 
 function searchByOccupation(people) {
   let occupation = promptFor("What is the person's occupation?", chars);
-  let originalArray = people;
   let foundPerson = people.filter(function (person) {
     if (person.occupation === occupation) {
       return true;
@@ -212,7 +208,7 @@ function searchByOccupation(people) {
   })
   if (foundPerson == 0) {
     alert("No matches, returning to start.")
-    return app(originalArray);
+    return app(people);
   }
   else {
     return foundPerson;
@@ -305,7 +301,23 @@ function displayPeople(people) {
   }).join("\n"));
 }
 
-//"Please enter the number of the profile to view\n"
+function askViewDetails(people) {
+  let response = promptFor("Would you view person detials?", yesNo).toLowerCase();
+  switch (response) {
+    case 'yes':
+      selectPerson(people);
+      break;
+    case 'no':
+      return displayPeople(people);
+  }
+}
+
+function selectPerson(people){
+  alert("Take a look again and remember selection number")
+  displayPeople(people);
+  let response = promptFor("Input selection number", chars);
+  displayPerson(people[response]);
+}
 
 function displayPerson(person) {
   let personInfo = "First Name: " + person.firstName + "\n";
