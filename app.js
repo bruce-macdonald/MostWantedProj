@@ -46,8 +46,11 @@ function mainMenu(person, people) {
       displayPerson(person);
       break;
     case "family":
-      let foundParents = findSiblings(person, people);
-      displayPeople(foundParents);
+      let parents = findParents(person, people);
+      let spouse = findSpouse(person, people);
+      let siblings = findSpouse(person, people);
+      var family = parents.concat(spouse,siblings);
+      displayPeople(family)
       break;
     case "descendants":
       let foundDescendants = findDescendants(person, people);
@@ -250,11 +253,10 @@ function findDescendants(person, people, descendants = []) {
   return descendants;
 }
 
-function findParents(person, people, parentals = []) {
+function findParents(person, people) {
   let parentId = person.parents;
-  people.filter(function (el) {
+  let parentals = people.filter(function (el) {
     if (el.id == parentId) {
-      parentals.push(el.id);
       return true;
     }
     else{
@@ -264,11 +266,10 @@ function findParents(person, people, parentals = []) {
   return parentals;
 }
 
-function findSpouse(person, people, spouse =[]) {
+function findSpouse(person, people) {
   let spouseId = person.currentSpouse;
-  people.filter(function(el) {
+  let spouse = people.filter(function(el) {
     if (el.id == spouseId) {
-      spouse.push(el.id);
       return true;
     }
     else{
@@ -297,14 +298,16 @@ function findSiblings(person, people){
 
 
 // function getFamily(person, people, family = []){
+//   let displayFamily = "";
 //   let parents = findParents(person, people);
 //   let spouse = findSpouse(person, people);
-//   let siblings = findSiblings(parents, people);
-//   if ( parents.length != 0){
-    
+//   let siblings = findSiblings(person, people);
+//   if ( parents != null){
+//     parents.forEach(function(parent) {
+//       displayFamily += "Parents: " + p
+      
+//     });
 //   }
-
-// }
 
 
 // alerts a list of people
